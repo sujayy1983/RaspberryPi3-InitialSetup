@@ -1,0 +1,31 @@
+---
+
+- name: Playbook to test connectivity with Raspberry Pi 3 
+  hosts: pi3
+  gather_facts: False
+
+  vars:
+     hobbies: /home/pi/hobbies
+
+  tasks:
+    - name: Update packages 
+      shell: "sudo apt-get update"
+      tags:
+        init
+
+    - name: Install git 
+      shell: "sudo apt-get install git"
+      tags:
+        init
+
+    - name: Create hobby folder 
+      file: path={{hobbies}}
+            recurse=yes
+            state=directory
+      tags:
+        init
+
+    - name: Clone desired repos 
+      shell: "cd {{hobbies}}; git clone https://github.com/simonmonk/pi_starter_kit.git" 
+      tags:
+        init

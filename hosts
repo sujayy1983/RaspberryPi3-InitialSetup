@@ -1,0 +1,8 @@
+[localhost]
+127.0.0.1
+
+[pi2]
+pi@raspberrypi
+
+[pi3]
+pi@192.168.0.17

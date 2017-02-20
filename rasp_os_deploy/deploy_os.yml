@@ -1,0 +1,46 @@
+---
+
+##  -------------------------------------------------  ##
+##                                                     ##
+##  Author: sujayyendhiren rs                          ##
+##                                                     ##
+##  Description: This playbook shall copy OS           ## 
+##        image on MAC onto raspberry pi's SD card     ##
+##        this playbook can easily be extended for     ##
+##        other image of user's choice                 ##
+##                                                     ##
+##  Tag information:                                   ##
+##             Jessei Lite Tag -> jlite                ##
+##             Jessei with UI Tag -> jui               ##
+##                                                     ##
+##  -------------------------------------------------  ##
+            
+- name: Playbook to deploy desired OS on Pi3 SD card 
+  hosts: localhost 
+  connection: local
+  gather_facts: False
+
+  vars: 
+     os_img_path: ~/Documents/raspberryOs/
+     jes_lite: 2017-01-11-raspbian-jessie-lite.img
+     jes_ui: 2017-01-11-raspbian-jessie.img
+
+  tasks:
+
+    - name: Unmount the partition if it is mounted 
+      shell: "diskutil unmountDisk /dev/disk2"
+      tags:
+        - jui
+        - jlite
+
+    - name: Copy OS image onto the SD card - Jessei lite
+      local_action: shell
+                     sudo dd bs=1m if='{{os_img_path}}{{jes_lite}}' of=/dev/disk2
+      tags:
+        - jlite
+
+    - name: Copy OS image onto SD card - Jessie with UI 
+      local_action: shell
+                     sudo dd bs=1m if='{{os_img_path}}{{jes_ui}}' of=/dev/disk2
+      tags:
+        - jui
